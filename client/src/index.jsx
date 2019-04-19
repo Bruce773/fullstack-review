@@ -17,7 +17,7 @@ class App extends React.Component {
       type: 'POST',
       url: '/repos',
       data: { user: term },
-      success: () => console.log(`${term} was searched`),
+      success: (result) => console.log(`${term} was searched`, result.data),
     });
     // // TODO
   }

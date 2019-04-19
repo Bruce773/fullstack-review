@@ -11,7 +11,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/repos', function(req, res) {
   // TODO - your code here!
   // console.log(req.body.user);
-  getReposByUsername(req.body.user, (result) => result);
+  getReposByUsername(req.body.user, (result) => {
+    // Use save to save the data in the database
+    save(result);
+    res.send({ data: result });
+  });
 
   // This route should take the github username provided
   // and get the repo information from the github API, then
