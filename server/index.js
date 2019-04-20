@@ -1,8 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-let mongoose = require('mongoose');
-let save = require('../database/index.js').save;
+let returnTopTwentyFive = require('../database/index.js').returnTopTwentyFive;
 let getReposByUsername = require('../helpers/github.js').getReposByUsername;
+let save = require('../database/index.js').save;
+const bodyParser = require('body-parser');
+const express = require('express');
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -10,36 +10,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/repos', function(req, res) {
   // TODO - your code here!
-  // console.log(req.body.user);
   getReposByUsername(req.body.user, (result) => {
     // Use save to save the data in the database
     save(result);
     res.send({ data: result });
   });
-
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // //* save the repo information in the database
-  // var db = mongoose.connection;
-  // //? Console.log errors when connecting to MongoDB
-  // db.on('error', console.error.bind(console, 'connection error:'));
-  // //? Once the connection to MongoDB is open run the following code
-  // db.once('open', function() {
-  //   // we're connected!
-  //   //? Place data recieved from GitHub into database here
-  // });
 });
 
 app.get('/repos', function(req, res) {
   // TODO - your code here!
-  // var db = mongoose.connection;
-  // //? Console.log errors when connecting to MongoDB
-  // db.on('error', console.error.bind(console, 'connection error:'));
-  // //? Once the connection to MongoDB is open run the following code
-  // db.once('open', function() {
-  //   // we're connected!
-  //   //? Return top 25 repos (figure out how to get the "top 25" repos)
-  // });
+  returnTopTwentyFive((result) => {
+    res.send({ data: result });
+  });
   // This route should send back the top 25 repos
 });
 

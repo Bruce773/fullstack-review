@@ -7,18 +7,24 @@ let repoSchema = mongoose.Schema({
   id: { type: Number, unique: true },
   name: String,
   fork: Boolean,
-  date_created: String,
+  created_at: String,
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
+
+let returnTopTwentyFive = (cb) => {
+  Repo.find({})
+    .sort('-created_at')
+    .exec((err, result) => (err ? console.log(err) : cb(result)));
+};
 
 let save = (reposArray) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
   let parsedData = JSON.parse(reposArray);
-  parsedData.forEach(({ id, name, fork, date_created }) => {
-    let repo = new Repo({ id, name, fork, date_created });
+  parsedData.forEach(({ id, name, fork, created_at}) => {
+    let repo = new Repo({ id, name, fork, created_at});
     repo.save((err, repo) => {
       err ? console.log(err) : console.log(repo);
     });
@@ -26,3 +32,4 @@ let save = (reposArray) => {
 };
 
 module.exports.save = save;
+module.exports.returnTopTwentyFive = returnTopTwentyFive;
