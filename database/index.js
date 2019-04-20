@@ -8,6 +8,7 @@ let repoSchema = mongoose.Schema({
   name: String,
   fork: Boolean,
   created_at: String,
+  html_url: String,
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
@@ -23,8 +24,10 @@ let save = (reposArray) => {
   // This function should save a repo or repos to
   // the MongoDB
   let parsedData = JSON.parse(reposArray);
-  parsedData.forEach(({ id, name, fork, created_at}) => {
-    let repo = new Repo({ id, name, fork, created_at});
+  // console.log(parsedData);
+  parsedData.forEach(({ id, name, fork, created_at, html_url }) => {
+    let repo = new Repo({ id, name, fork, created_at, html_url });
+    console.log(html_url);
     repo.save((err, repo) => {
       err ? console.log(err) : console.log(repo);
     });

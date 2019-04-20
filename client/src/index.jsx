@@ -38,14 +38,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ textAlign: 'center' }}>
         <h1>Github Fetcher</h1>
         <RepoList repos={this.state.repos} />
         <Search onSearch={this.search.bind(this)} />
         {this.state.repos.map((item) => {
-          let { id, name, fork, created_at } = item;
+          let { id, name, fork, created_at, html_url } = item;
+          console.log(item);
           return (
-            <Repos name={name} fork={fork} created_at={created_at} id={id} />
+            <Repos
+              name={name}
+              fork={fork}
+              created_at={created_at}
+              id={id}
+              html_url={html_url}
+            />
           );
         })}
       </div>
